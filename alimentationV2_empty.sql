@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  localhost
--- Généré le :  Lun 28 Mai 2018 à 12:55
+-- Généré le :  Mar 29 Mai 2018 à 10:12
 -- Version du serveur :  5.7.22-0ubuntu0.16.04.1
 -- Version de PHP :  7.0.30-0ubuntu0.16.04.1
 
@@ -40,7 +40,7 @@ CREATE TABLE `Category` (
 CREATE TABLE `Product` (
   `id` smallint(6) UNSIGNED NOT NULL,
   `name` varchar(150) NOT NULL,
-  `nutriscore` char(1) NOT NULL,
+  `nutriscore` char(1) DEFAULT NULL,
   `category_name` varchar(70) DEFAULT NULL,
   `url` text NOT NULL,
   `substitut_id` int(11) NOT NULL DEFAULT '0'
@@ -62,7 +62,7 @@ ALTER TABLE `Category`
 --
 ALTER TABLE `Product`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `name` (`name`) USING BTREE;
+  ADD UNIQUE KEY `name` (`name`) USING BTREE;
 
 --
 -- AUTO_INCREMENT pour les tables exportées
@@ -77,7 +77,7 @@ ALTER TABLE `Category`
 -- AUTO_INCREMENT pour la table `Product`
 --
 ALTER TABLE `Product`
-  MODIFY `id` smallint(6) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` smallint(6) UNSIGNED NOT NULL AUTO_INCREMENT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
