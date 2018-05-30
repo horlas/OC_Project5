@@ -19,9 +19,9 @@ def fill_database(category):
     products = response.json()
     #How many page in a category.
     count = products["count"]
-    loop = ceil(count/20) # 20 = pagination
+    loop = 3            # import only the tree first pages       #ceil(count/20) # 20 = pagination
     #fill database
-    while loop != 0:
+    while loop > 0:
         #redefine url
         url = "{}/{}/{}.{}".format(url_begin, category, nb_page, url_end)
         
@@ -55,15 +55,15 @@ def fill_database(category):
                 pass
         
         
-        product_data = (p_name, n_grade, cat_name, url)
-        nb_id = cursor.lastrowid
-        category_data = {"id": nb_id, "name" :cat_name}
-        #to avoid Integrity error on duplicate key from mysql 
-        try:
-            cursor.execute(add_product, product_data)
-            cursor.execute(add_category, category_data)
-        except mysql.connector.errors.IntegrityError:
-            pass
+            product_data = (p_name, n_grade, cat_name, url)
+            nb_id = cursor.lastrowid
+            category_data = {"id": nb_id, "name" :cat_name}
+            #to avoid Integrity error on duplicate key from mysql 
+            try:
+                cursor.execute(add_product, product_data)
+                cursor.execute(add_category, category_data)
+            except mysql.connector.errors.IntegrityError:
+                pass
         nb_page += 1
         loop -= 1
             
@@ -74,6 +74,9 @@ if __name__ == "__main__":
     cnx = mysql.connector.connect(user="test_P5", password= "test_P5", database="alimentationV2")
     cursor = cnx.cursor()
     fill_database("fruits-secs")
+    fill_database("produits-a-tartiner")
+    fill_database("yaourts")
+    fill_database("sandwichs")
     #make sure to commit data to database
     cnx.commit()
     #close connexion
