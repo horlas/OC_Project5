@@ -39,7 +39,15 @@ def select_product():
     product.close() 
     return ns    
 
-#def conversion():
+def conversion(ns):
+    '''To convert letter to number'''
+    ns_number = 0
+    conv_ns = {1 : "a", 2 : "b", 3 : "c", 4 : "d", 5 : "e"}
+    for key, value in conv_ns.items():
+        if ns == value:
+            ns_number = key
+
+    return ns_number            
 
 
 
@@ -51,7 +59,9 @@ if __name__ == "__main__":
         display_category()
         select_category()
         ns = select_product()
-        print(ns)
+        ns_number = conversion(ns)
+        print(ns_number)
+
     
         
 
