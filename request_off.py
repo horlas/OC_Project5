@@ -1,13 +1,14 @@
 #!/usr/bin/python3.5
 # -*-coding:utf-8 -
-
+from classes import *
 from math import *
 import requests
 import mysql.connector 
 
-def fill_database(category):
-    """Function which take an category from Open Food Facts in parameter and
-    fill with datas the database"""
+def load_data(category):
+    """Function which take an category from Open Food Facts in parameter
+    and load data in an Temporary table for each page of the category"""
+
     url_begin = 'https://fr.openfoodfacts.org/categorie'
     nb_page = 1
     url_end = 'json'
@@ -19,7 +20,7 @@ def fill_database(category):
     products = response.json()
     #How many page in a category.
     count = products["count"]
-    loop = 3            # import only the tree first pages       #ceil(count/20) # 20 = pagination
+    loop = 3           # import only the tree first pages       #ceil(count/20) # 20 = pagination
     #fill database
     while loop > 0:
         #redefine url
@@ -28,59 +29,45 @@ def fill_database(category):
         response = requests.get(url)
         products = response.json()
 
-
-        #Variables of filling database
-        p_name = ""
         n_grade = ""
         cat_name = ""
-        url = ""
 
-        #query to insert data
-        add_product = ("INSERT INTO Product"
-                       "(name, nutriscore, category_name, url)"
-                       "VALUES (%s, %s, %s, %s)")
-
-        add_category = ("INSERT INTO Category"
-                        "(id, name)"
-                        "VALUES (%(id)s, %(name)s)")
-        #Loop to fill database
         for p in products["products"]:
-        #to avoid empty field from OpenFoodFacts        
             try:
                 p_name = p["product_name_fr"]
                 n_grade = p["nutrition_grades"]
                 cat_name = p["pnns_groups_2"]
                 url = p["url"]
-            except KeyError:
+            except KeyError: #to avoid empty field from OpenFoodFacts 
                 pass
-        
-        
-            product_data = (p_name, n_grade, cat_name, url)
-            nb_id = cursor.lastrowid
-            category_data = {"id": nb_id, "name" :cat_name}
-            #to avoid Integrity error on duplicate key from mysql 
-            try:
-                cursor.execute(add_product, product_data)
-                cursor.execute(add_category, category_data)
-            except mysql.connector.errors.IntegrityError:
-                pass
+            product = Product(p_name, n_grade, cat_name, url)
+            product.add(cursor)    
         nb_page += 1
         loop -= 1
-            
+
+def fill_database():
+    """Function which call a stored procedure in Database to fill table Product and Category"""
+
+    stored_proc_sql = ("CALL fill_database()")
+    cursor.execute(stored_proc_sql)       
 
 if __name__ == "__main__":
 
     #Define the connexion
     cnx = mysql.connector.connect(user="test_P5", password= "test_P5", database="alimentationV2")
     cursor = cnx.cursor()
-    fill_database("fruits-secs")
-    fill_database("produits-a-tartiner")
-    fill_database("yaourts")
-    fill_database("sandwichs")
+    #cursor = cnx.cursor()
+    #load datas
+    load_data("fruits-secs")
+    load_data("produits-a-tartiner")
+    load_data("cones-et-batonnets-surgeles")
+    load_data("sandwichs")
+    load_data("pizzas-et-tartes-surgelees")
+    #fill table with datas
+    fill_database()
     #make sure to commit data to database
     cnx.commit()
     #close connexion
     cursor.close()
     cnx.close()
 #############################################################################FIN
-

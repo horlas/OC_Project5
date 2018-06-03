@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  localhost
--- Généré le :  Mar 29 Mai 2018 à 10:12
+-- Généré le :  Dim 03 Juin 2018 à 20:24
 -- Version du serveur :  5.7.22-0ubuntu0.16.04.1
 -- Version de PHP :  7.0.30-0ubuntu0.16.04.1
 
@@ -20,6 +20,28 @@ SET time_zone = "+00:00";
 -- Base de données :  `alimentationV2`
 --
 
+DELIMITER $$
+--
+-- Procédures
+--
+CREATE DEFINER=`root`@`localhost` PROCEDURE `fill_database` ()  BEGIN
+    
+    INSERT INTO Product (name, nutriscore, url, category_name)
+    SELECT name, nutriscore, url, category_name  FROM Temp;
+     
+    INSERT INTO Category (name) 
+    SELECT DISTINCT category_name FROM Temp;
+    
+    UPDATE Product
+    INNER JOIN Category ON Category.name = Product.category_name
+    SET Product.category_id = Category.id
+    WHERE Product.category_name = Category.name;
+    
+    TRUNCATE TABLE Temp;
+END$$
+
+DELIMITER ;
+
 -- --------------------------------------------------------
 
 --
@@ -28,7 +50,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `Category` (
   `id` int(11) UNSIGNED NOT NULL,
-  `name` varchar(70) NOT NULL
+  `name` varchar(150) CHARACTER SET utf8 DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -39,11 +61,26 @@ CREATE TABLE `Category` (
 
 CREATE TABLE `Product` (
   `id` smallint(6) UNSIGNED NOT NULL,
-  `name` varchar(150) NOT NULL,
+  `name` varchar(150) CHARACTER SET utf8 NOT NULL,
   `nutriscore` char(1) DEFAULT NULL,
-  `category_name` varchar(70) DEFAULT NULL,
   `url` text NOT NULL,
-  `substitut_id` int(11) NOT NULL DEFAULT '0'
+  `substitut_id` int(11) NOT NULL DEFAULT '0',
+  `category_id` int(6) UNSIGNED DEFAULT NULL,
+  `category_name` varchar(80) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `Temp`
+--
+
+CREATE TABLE `Temp` (
+  `id` smallint(6) UNSIGNED NOT NULL,
+  `name` varchar(150) NOT NULL,
+  `nutriscore` char(1) NOT NULL DEFAULT '0',
+  `category_name` varchar(150) DEFAULT NULL,
+  `url` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -54,15 +91,20 @@ CREATE TABLE `Product` (
 -- Index pour la table `Category`
 --
 ALTER TABLE `Category`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `name` (`name`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Index pour la table `Product`
 --
 ALTER TABLE `Product`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `Temp`
+--
+ALTER TABLE `Temp`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `name` (`name`) USING BTREE;
+  ADD UNIQUE KEY `name` (`name`);
 
 --
 -- AUTO_INCREMENT pour les tables exportées
@@ -77,6 +119,11 @@ ALTER TABLE `Category`
 -- AUTO_INCREMENT pour la table `Product`
 --
 ALTER TABLE `Product`
+  MODIFY `id` smallint(6) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT pour la table `Temp`
+--
+ALTER TABLE `Temp`
   MODIFY `id` smallint(6) UNSIGNED NOT NULL AUTO_INCREMENT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
