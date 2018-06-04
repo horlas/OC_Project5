@@ -6,10 +6,14 @@ import mysql.connector
 class Product():
 
     def __init__(self, p_name, n_grade, cat_name, url):
+        
         self.p_name = p_name
         self.n_grade = n_grade
         self.cat_name = cat_name
         self.url = url
+        self.id = 0
+        self.category_id = 0
+
         
 
 
@@ -28,21 +32,6 @@ class Product():
         except mysql.connector.errors.IntegrityError:
             pass
 
-
-
-    def select_category(self):
-        '''Function to select a category of food'''
-        rep2 = (int(input("Selectionnez la catégorie: ")),) #rep2 is a tuple to insert in query
-        query = ("SELECT Product.id, Product.name from Product"
-                " INNER JOIN Category"
-                " ON Product.category_name = Category.name"
-                " WHERE Category.id = %s")
-
-        list_product = cnx.cursor()
-        list_product.execute(query, rep2)
-        for id, name in list_product:
-            print(id, "  --  ", name)
-        list_product.close()    
 
     def select_product():
         '''In order to offer a substitute, we must choice a product'''

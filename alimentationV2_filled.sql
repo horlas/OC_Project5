@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  localhost
--- Généré le :  Dim 03 Juin 2018 à 20:30
+-- Généré le :  Lun 04 Juin 2018 à 11:29
 -- Version du serveur :  5.7.22-0ubuntu0.16.04.1
 -- Version de PHP :  7.0.30-0ubuntu0.16.04.1
 
@@ -50,7 +50,7 @@ DELIMITER ;
 
 CREATE TABLE `Category` (
   `id` int(11) UNSIGNED NOT NULL,
-  `name` varchar(150) CHARACTER SET utf8 DEFAULT NULL
+  `name` varchar(150) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -59,7 +59,6 @@ CREATE TABLE `Category` (
 
 INSERT INTO `Category` (`id`, `name`) VALUES
 (1, 'Dried fruits'),
-(2, ''),
 (3, 'Fats'),
 (4, 'Sweets'),
 (5, 'Cheese'),
@@ -69,7 +68,8 @@ INSERT INTO `Category` (`id`, `name`) VALUES
 (9, 'Processed meat'),
 (10, 'Ice cream'),
 (11, 'Sandwich'),
-(12, 'Pizza pies and quiche');
+(12, 'Pizza pies and quiche'),
+(13, 'Biscuits and cakes');
 
 -- --------------------------------------------------------
 
@@ -79,9 +79,9 @@ INSERT INTO `Category` (`id`, `name`) VALUES
 
 CREATE TABLE `Product` (
   `id` smallint(6) UNSIGNED NOT NULL,
-  `name` varchar(150) CHARACTER SET utf8 NOT NULL,
-  `nutriscore` char(1) DEFAULT NULL,
-  `url` text NOT NULL,
+  `name` varchar(150) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `nutriscore` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `url` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `substitut_id` int(11) NOT NULL DEFAULT '0',
   `category_id` int(6) UNSIGNED DEFAULT NULL,
   `category_name` varchar(80) DEFAULT NULL
@@ -131,7 +131,6 @@ INSERT INTO `Product` (`id`, `name`, `nutriscore`, `url`, `substitut_id`, `categ
 (37, 'Abricots séchés extra moelleux', 'c', 'https://fr.openfoodfacts.org/produit/3452519050125/abricots-seches-extra-moelleux-lilifruit', 0, 1, 'Dried fruits'),
 (38, 'Abricots secs entiers', 'c', 'https://fr.openfoodfacts.org/produit/3452519050125/abricots-seches-extra-moelleux-lilifruit', 0, 1, 'Dried fruits'),
 (39, 'Abricot sans sucres ajoutés', 'c', 'https://fr.openfoodfacts.org/produit/3270720014022/abricot-sans-sucres-ajoutes-daco-bello', 0, 1, 'Dried fruits'),
-(40, '', '', 'https://fr.openfoodfacts.org/categorie/produits-a-tartiner/1.json', 0, 2, ''),
 (41, 'Beurre traditionnel demi-sel', 'e', 'https://fr.openfoodfacts.org/produit/3222472772606/beurre-traditionnel-demi-sel-casino', 0, 3, 'Fats'),
 (42, 'Confiture extra fraise', 'd', 'https://fr.openfoodfacts.org/produit/3564700011119/confiture-extra-fraise-mamie-douceur', 0, 4, 'Sweets'),
 (43, 'Gelées fruits de la passion', 'd', 'https://fr.openfoodfacts.org/produit/3760124234015/gelees-fruits-de-la-passion-la-cuillere-gourmande', 0, 4, 'Sweets'),
@@ -168,7 +167,6 @@ INSERT INTO `Product` (`id`, `name`, `nutriscore`, `url`, `substitut_id`, `categ
 (74, 'Confiture artisanale myrtille sauvage au sucre de canne roux', 'd', 'https://fr.openfoodfacts.org/produit/3760128080281/confiture-artisanale-myrtille-sauvage-au-sucre-de-canne-roux-les-confitures-de-la-creation', 0, 4, 'Sweets'),
 (75, 'Purée d\'amande complète', 'c', 'https://fr.openfoodfacts.org/produit/3390390001600/puree-d-amande-complete-ti-bio', 0, 6, 'unknown'),
 (76, 'Beurre St hubert bio sel de mer', 'd', 'https://fr.openfoodfacts.org/produit/3366321052348/beurre-st-hubert-bio-sel-de-mer', 0, 3, 'Fats'),
-(77, 'Miel de fleurs et noisettes', '', 'https://fr.openfoodfacts.org/categorie/produits-a-tartiner/3.json', 0, 2, ''),
 (78, 'Caramel au lait', 'd', 'https://fr.openfoodfacts.org/produit/3700961303642/caramel-au-lait-le-comptoir-de-mathilde', 0, 4, 'Sweets'),
 (79, 'Pâte à tartiner aux pralines', 'e', 'https://fr.openfoodfacts.org/produit/3580280775234/pate-a-tartiner-aux-pralines-pates-a-tartiner-aux-pralines', 0, 4, 'Sweets'),
 (80, 'Miel doux', 'e', 'https://fr.openfoodfacts.org/produit/3580280775234/pate-a-tartiner-aux-pralines-pates-a-tartiner-aux-pralines', 0, 4, 'Sweets'),
@@ -321,7 +319,63 @@ INSERT INTO `Product` (`id`, `name`, `nutriscore`, `url`, `substitut_id`, `categ
 (227, 'Pizza Chorizo', 'c', 'https://fr.openfoodfacts.org/produit/3256221116014/pizza-chorizo-u', 0, 12, 'Pizza pies and quiche'),
 (228, 'Tarte à la savoyarde', 'd', 'https://fr.openfoodfacts.org/produit/3256225094561/tarte-a-la-savoyarde-u', 0, 12, 'Pizza pies and quiche'),
 (229, 'Pizza savoyarde', 'c', 'https://fr.openfoodfacts.org/produit/3256225425099/pizza-savoyarde-u', 0, 12, 'Pizza pies and quiche'),
-(230, 'Pizza à base de sauce aux champignons et à la truffe blanche d\'été 1,08% et arome truffe', 'c', 'https://fr.openfoodfacts.org/produit/3368954148788/pizza-a-base-de-sauce-aux-champignons-et-a-la-truffe-blanche-d-ete-1-08-et-arome-truffe-u-saveurs', 0, 6, 'unknown');
+(230, 'Pizza à base de sauce aux champignons et à la truffe blanche d\'été 1,08% et arome truffe', 'c', 'https://fr.openfoodfacts.org/produit/3368954148788/pizza-a-base-de-sauce-aux-champignons-et-a-la-truffe-blanche-d-ete-1-08-et-arome-truffe-u-saveurs', 0, 6, 'unknown'),
+(231, 'Savane tout choco', 'd', 'https://fr.openfoodfacts.org/produit/3660140808750/savane-tout-choco-brossard', 0, 13, 'Biscuits and cakes'),
+(232, 'Donuts Chupa Chups saveur Fraise', 'e', 'https://fr.openfoodfacts.org/produit/5413476980236/donuts-chupa-chups-saveur-fraise-vandemoortele', 0, 13, 'Biscuits and cakes'),
+(233, 'napolitain signature chocolat', 'c', 'https://fr.openfoodfacts.org/produit/7622210242822/napolitain-signature-chocolat-lu', 0, 13, 'Biscuits and cakes'),
+(234, 'Madeleines', 'e', 'https://fr.openfoodfacts.org/produit/3770008914018/madeleines-affaires-patissieres', 0, 13, 'Biscuits and cakes'),
+(235, 'Tarte à la Crème de Cacao', 'd', 'https://fr.openfoodfacts.org/produit/3254950008808/tarte-a-la-creme-de-cacao-serebis', 0, 13, 'Biscuits and cakes'),
+(236, 'Pim\'s Framboise', 'e', 'https://fr.openfoodfacts.org/produit/5410041040807/pim-s-framboise-lu', 0, 13, 'Biscuits and cakes'),
+(237, 'L\'Ourson de Lulu Chocolat', 'd', 'https://fr.openfoodfacts.org/produit/3048282322646/l-ourson-de-lulu-chocolat-lu', 0, 13, 'Biscuits and cakes'),
+(238, 'Gâteau au Fromage Blanc Fermier Nature', 'c', 'https://fr.openfoodfacts.org/produit/3593551176388/gateau-au-fromage-blanc-fermier-nature-la-fromagere', 0, 13, 'Biscuits and cakes'),
+(239, 'Kouign Amann', 'e', 'https://fr.openfoodfacts.org/produit/3294510003508/kouign-amann-berrou', 0, 13, 'Biscuits and cakes'),
+(240, 'Sweet Cerise', 'e', 'https://fr.openfoodfacts.org/produit/3250390176848/sweet-cerise-chabrior', 0, 13, 'Biscuits and cakes'),
+(241, 'Barre Pâtissière', 'd', 'https://fr.openfoodfacts.org/produit/26035291/barre-patissiere-kergrist', 0, 13, 'Biscuits and cakes'),
+(242, 'Cocottes Mini Brownie Blanc', 'e', 'https://fr.openfoodfacts.org/produit/3178530411560/cocottes-mini-brownie-blanc-st-michel', 0, 13, 'Biscuits and cakes'),
+(243, 'Mini Gâteaux de Noël - Stollen aux Pommes', 'e', 'https://fr.openfoodfacts.org/produit/3279130111406/mini-gateaux-de-noel-stollen-aux-pommes-fortwenger', 0, 13, 'Biscuits and cakes'),
+(244, 'Preparation pour flan noix de coco', 'd', 'https://fr.openfoodfacts.org/produit/3507570020232/preparation-pour-flan-noix-de-coco-agidra', 0, 13, 'Biscuits and cakes'),
+(245, 'Quatre-Quarts', 'e', 'https://fr.openfoodfacts.org/produit/3350030158415/quatre-quarts-monoprix-p-tits-prix', 0, 13, 'Biscuits and cakes'),
+(246, 'Madeleines nappées chocolat', 'e', 'https://fr.openfoodfacts.org/produit/3178530415445/madeleines-nappees-chocolat-st-michel', 0, 13, 'Biscuits and cakes'),
+(247, 'Moelleux au chocolat avec des pépites', 'e', 'https://fr.openfoodfacts.org/produit/8722700487845/moelleux-au-chocolat-avec-des-pepites-alsa', 0, 13, 'Biscuits and cakes'),
+(248, 'Brownies', 'd', 'https://fr.openfoodfacts.org/produit/27033838/brownies-arioso', 0, 13, 'Biscuits and cakes'),
+(249, 'La madeleine chocolat au lait.', 'e', 'https://fr.openfoodfacts.org/produit/3178530404050/la-madeleine-chocolat-au-lait-bonne-maman', 0, 13, 'Biscuits and cakes'),
+(250, 'Gâteau au fromage blanc', 'c', 'https://fr.openfoodfacts.org/produit/3370390001008/gateau-au-fromage-blanc-saint-amour', 0, 13, 'Biscuits and cakes'),
+(251, 'Mes 2 Moelleux au Chocolat', 'e', 'https://fr.openfoodfacts.org/produit/3292590706111/mes-2-moelleux-au-chocolat-thiriet', 0, 13, 'Biscuits and cakes'),
+(252, 'Gâteau Moelleux Pépites de Chocolat', 'd', 'https://fr.openfoodfacts.org/produit/3178530412727/gateau-moelleux-pepites-de-chocolat-st-michel', 0, 13, 'Biscuits and cakes'),
+(253, 'Mini Fourrés Saveur Chocolat', 'e', 'https://fr.openfoodfacts.org/produit/3259011144068/mini-fourres-saveur-chocolat-valpiform', 0, 13, 'Biscuits and cakes'),
+(254, 'Mini Roulés', 'd', 'https://fr.openfoodfacts.org/produit/3250391447329/mini-roules-chabrior', 0, 13, 'Biscuits and cakes'),
+(255, 'Brownies au Chocolat', 'd', 'https://fr.openfoodfacts.org/produit/3564700466339/brownies-au-chocolat-p-tit-deli', 0, 13, 'Biscuits and cakes'),
+(256, 'Grosses Madeleines', 'c', 'https://fr.openfoodfacts.org/produit/3700238376645/grosses-madeleines-canto', 0, 13, 'Biscuits and cakes'),
+(257, 'Himbeer-Roulade', 'd', 'https://fr.openfoodfacts.org/produit/7616700001464/himbeer-roulade-migros', 0, 13, 'Biscuits and cakes'),
+(258, 'Pandoro', 'd', 'https://fr.openfoodfacts.org/produit/8009363008908/pandoro-dellatorre', 0, 13, 'Biscuits and cakes'),
+(259, 'Panettone traditionnel Bio', 'd', 'https://fr.openfoodfacts.org/produit/3266191008615/panettone-traditionnel-bio-la-vie-claire', 0, 13, 'pastries'),
+(260, 'Fondant Chocolat', 'e', 'https://fr.openfoodfacts.org/produit/2000001565476/fondant-chocolat-l-instant-gourmand', 0, 13, 'Biscuits and cakes'),
+(261, 'Donut', 'e', 'https://fr.openfoodfacts.org/produit/5413476956903/donut-ikea', 0, 13, 'Biscuits and cakes'),
+(262, 'Petite Madeleines', 'd', 'https://fr.openfoodfacts.org/produit/3178530410129/petite-madeleines-st-michel', 0, 13, 'Biscuits and cakes'),
+(263, 'Madeleines coquilles pur beurre', 'e', 'https://fr.openfoodfacts.org/produit/20927899/madeleines-coquilles-pur-beurre-sondey', 0, 13, 'Biscuits and cakes'),
+(264, 'Veritables Madeleines', 'e', 'https://fr.openfoodfacts.org/produit/3271710005174/veritables-madeleines-ker-ys', 0, 13, 'Biscuits and cakes'),
+(265, 'Madeleines longues aux œufs', 'd', 'https://fr.openfoodfacts.org/produit/26035277/madeleines-longues-aux-oeufs-tante-odile', 0, 13, 'Biscuits and cakes'),
+(266, 'Le browkie', 'e', 'https://fr.openfoodfacts.org/produit/3760253290067/le-browkie-la-fabrique-cookies', 0, 13, 'Biscuits and cakes'),
+(267, 'La Nonnette Orange', 'd', 'https://fr.openfoodfacts.org/produit/3110320502102/la-nonnette-orange-painsol', 0, 13, 'Biscuits and cakes'),
+(268, 'Tarte à La Crème De Cappuccino', 'd', 'https://fr.openfoodfacts.org/produit/8437000209270/tarte-a-la-creme-de-cappuccino-horno-de-san-juan', 0, 13, 'Biscuits and cakes'),
+(269, 'Cake aux fruits tranchés', 'd', 'https://fr.openfoodfacts.org/produit/26056661/cake-aux-fruits-tranches-tante-odile', 0, 13, 'Biscuits and cakes'),
+(270, 'Cake Spéculoos Pomme Raisins', 'd', 'https://fr.openfoodfacts.org/produit/3760155984422/cake-speculoos-pomme-raisins-legendes-gourmandes', 0, 13, 'Biscuits and cakes'),
+(271, 'Madeleine Chocolat', 'e', 'https://fr.openfoodfacts.org/produit/3178530414332/madeleine-chocolat-bonne-maman', 0, 13, 'Biscuits and cakes'),
+(272, '6 nonnettes au miel et à l\'orange', 'd', 'https://fr.openfoodfacts.org/produit/3429961111285/6-nonnettes-au-miel-et-a-l-orange-savimiel', 0, 13, 'Biscuits and cakes'),
+(273, 'Savane Jungle Framboise', 'd', 'https://fr.openfoodfacts.org/produit/3660140927253/savane-jungle-framboise-brossard', 0, 13, 'Biscuits and cakes'),
+(274, 'Gü-yorkais au Spéculoos', 'e', 'https://fr.openfoodfacts.org/produit/5060023979177/gu-yorkais-au-speculoos', 0, 13, 'Biscuits and cakes'),
+(275, 'Mon gâteau', 'e', 'https://fr.openfoodfacts.org/produit/3259426035913/mon-gateau-ker-cadelac', 0, 13, 'Biscuits and cakes'),
+(276, 'Mini-nonnettes de Dijon à la confiture d\'abricot', 'd', 'https://fr.openfoodfacts.org/produit/3760129921170/mini-nonnettes-de-dijon-a-la-confiture-d-abricot-mulot-petitjean', 0, 13, 'Biscuits and cakes'),
+(277, 'Gâteau au chocolat noir', 'd', 'https://fr.openfoodfacts.org/produit/3350033118492/gateau-au-chocolat-noir-monoprix', 0, 13, 'Biscuits and cakes'),
+(278, 'Marimbas', 'e', 'https://fr.openfoodfacts.org/produit/3415306290579/marimbas-les-renardises', 0, 13, 'Biscuits and cakes'),
+(279, 'Préparation Cheesecake au Spéculoos', 'e', 'https://fr.openfoodfacts.org/produit/8714100276433/preparation-cheesecake-au-speculoos-alsa', 0, 13, 'Biscuits and cakes'),
+(280, 'Savane barr', 'e', 'https://fr.openfoodfacts.org/produit/3660140929257/savane-barr-brossard', 0, 13, 'Biscuits and cakes'),
+(281, 'Muffins aux Pépites de Chocolat', 'd', 'https://fr.openfoodfacts.org/produit/3760121560650/muffins-aux-pepites-de-chocolat-dynamitrade', 0, 13, 'Biscuits and cakes'),
+(282, 'Mini-cakes aux fruits', 'd', 'https://fr.openfoodfacts.org/produit/3560071096212/mini-cakes-aux-fruits-carrefour', 0, 13, 'Biscuits and cakes'),
+(283, 'Gâteau Breton', 'e', 'https://fr.openfoodfacts.org/produit/3281130006361/gateau-breton-louis-le-goff', 0, 13, 'Biscuits and cakes'),
+(284, 'Gâteau au fromage frais & son coulis de framboise', 'c', 'https://fr.openfoodfacts.org/produit/3250391992546/gateau-au-fromage-frais-son-coulis-de-framboise-paturages', 0, 13, 'Biscuits and cakes'),
+(285, 'Madeleines Marbrées Chocolat', 'c', 'https://fr.openfoodfacts.org/produit/3250391992546/gateau-au-fromage-frais-son-coulis-de-framboise-paturages', 0, 13, 'Biscuits and cakes'),
+(286, 'Madeleine Nature', 'd', 'https://fr.openfoodfacts.org/produit/3439495207477/madeleine-nature', 0, 13, 'Biscuits and cakes');
 
 -- --------------------------------------------------------
 
@@ -373,7 +427,7 @@ ALTER TABLE `Category`
 -- AUTO_INCREMENT pour la table `Product`
 --
 ALTER TABLE `Product`
-  MODIFY `id` smallint(6) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=256;
+  MODIFY `id` smallint(6) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=294;
 --
 -- AUTO_INCREMENT pour la table `Temp`
 --

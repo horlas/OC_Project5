@@ -1,53 +1,51 @@
 #!/usr/bin/python3.5
 # -*-coding:utf-8 -
 
-import mysql.connector 
+from classes import *
+from constants import *
 
 def display_category():
     '''Function witch display the list of category'''
-    query = ("SELECT id, name from Category")
-    cat_display = cnx.cursor()
-    cat_display.execute(query)
-    for id, name in cat_display:
+    CURSOR.execute(query_display_category)
+    for id, name in CURSOR:
         print(id, "  --  ", name)
-    cat_display.close()
 
 def select_category():
     '''Function to select a category of food'''
-    rep2 = (int(input("Selectionnez la catégorie: ")),) #rep2 is a tuple to insert in query
-    query = ("SELECT Product.id, Product.name from Product"
-             " INNER JOIN Category"
-             " ON Product.category_name = Category.name"
-             " WHERE Category.id = %s")
-
-    list_product = cnx.cursor()
-    list_product.execute(query, rep2)
-    for id, name in list_product:
+    cat_name = (int(input("Selectionnez la catégorie: ")),) #rep2 is a tuple to insert in query
+    CURSOR.execute(query_select_category, cat_name)
+    for id, name in CURSOR:
         print(id, "  --  ", name)
-    list_product.close()    
 
 def select_product():
     '''In order to offer a substitute, we must choice a product'''
-    rep3 = (int(input("Choisissez votre produit: ")),)
-    query = ("SELECT Product.id, Product.nutriscore from Product"
-             " WHERE Product.id = %s")
-    product = cnx.cursor()
-    product.execute(query, rep3)
-    for id, nutriscore in product:
-        ns = nutriscore
- 
-    product.close() 
-    return ns    
+    p_id = (int(input("Choisissez votre produit: ")),)
+    CURSOR.execute(query_select_product, p_id)
+    for id, nutriscore in CURSOR:
+        n_grade = nutriscore
+    return n_grade    
 
-def conversion(ns):
+def conversion(n_grade):
     '''To convert letter to number'''
     ns_number = 0
     conv_ns = {1 : "a", 2 : "b", 3 : "c", 4 : "d", 5 : "e"}
     for key, value in conv_ns.items():
-        if ns == value:
+        if n_grade == value:
             ns_number = key
 
     return ns_number            
+
+
+#ecrire une fonction qui retournera un produit meilleur
+#def substitute(ns_number)
+
+    
+#Nutriscore donné en chiffre
+#Même categorie
+#faire un random.choice sur une liste
+
+
+
 
 
 
@@ -58,12 +56,12 @@ if __name__ == "__main__":
     if rep == 1: 
         display_category()
         select_category()
-        ns = select_product()
-        ns_number = conversion(ns)
+        n_grade = select_product()
+        ns_number = conversion(n_grade)
         print(ns_number)
 
     
         
 
-
+    CURSOR.close()
     cnx.close()     

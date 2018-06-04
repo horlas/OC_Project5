@@ -56,13 +56,12 @@ if __name__ == "__main__":
     #Define the connexion
     cnx = mysql.connector.connect(user="test_P5", password= "test_P5", database="alimentationV2")
     cursor = cnx.cursor()
-    #cursor = cnx.cursor()
-    #load datas
     load_data("fruits-secs")
     load_data("produits-a-tartiner")
     load_data("cones-et-batonnets-surgeles")
     load_data("sandwichs")
     load_data("pizzas-et-tartes-surgelees")
+    load_data("gateaux")
     #fill table with datas
     fill_database()
     #make sure to commit data to database
