@@ -11,7 +11,9 @@ import mysql.connector
 cnx = mysql.connector.connect(user="test_P5", password= "test_P5", database="alimentationV2")
 CURSOR = cnx.cursor()
 
-
+add_product = ("INSERT INTO Temp"
+               "(name, nutriscore, category_name, url)"
+               "VALUES (%s, %s, %s, %s)")
 
 query_display_category = ("SELECT id, name from Category")
 

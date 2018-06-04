@@ -31,8 +31,9 @@ def load_data(category):
 
         n_grade = ""
         cat_name = ""
-
+        product = Product()
         for p in products["products"]:
+            
             try:
                 p_name = p["product_name_fr"]
                 n_grade = p["nutrition_grades"]
@@ -40,8 +41,11 @@ def load_data(category):
                 url = p["url"]
             except KeyError: #to avoid empty field from OpenFoodFacts 
                 pass
-            product = Product(p_name, n_grade, cat_name, url)
-            product.add(cursor)    
+
+            
+
+            product.add(p_name, n_grade, cat_name, url, cursor)
+               
         nb_page += 1
         loop -= 1
 
@@ -62,6 +66,8 @@ if __name__ == "__main__":
     load_data("sandwichs")
     load_data("pizzas-et-tartes-surgelees")
     load_data("gateaux")
+    load_data("jambons-de-paris")
+
     #fill table with datas
     fill_database()
     #make sure to commit data to database

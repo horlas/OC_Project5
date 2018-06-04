@@ -1,27 +1,29 @@
 #!/usr/bin/python3.5
 # -*-coding:utf-8 -
 
-import mysql.connector 
+import mysql.connector
+from constants import *
+
 
 class Product():
 
-    def __init__(self, p_name, n_grade, cat_name, url):
+    def __init__(self):
         
-        self.p_name = p_name
-        self.n_grade = n_grade
-        self.cat_name = cat_name
-        self.url = url
+        self.p_name = ""
+        self.n_grade = ""
+        self.cat_name = ""
+        self.url = ""
         self.id = 0
         self.category_id = 0
 
         
 
-    def add(self, cursor):
-        '''Function use to fill database'''
-         
-        add_product = ("INSERT INTO Temp"
-                       "(name, nutriscore, category_name, url)"
-                       "VALUES (%s, %s, %s, %s)")
+    def add(self, p_name, n_grade, cat_name, url, cursor):
+        '''Function used to fill database'''
+        self.p_name = p_name
+        self.n_grade = n_grade
+        self.cat_name = cat_name
+        self.url = url
 
         product_data = (self.p_name, self.n_grade, self.cat_name, self.url)
 
