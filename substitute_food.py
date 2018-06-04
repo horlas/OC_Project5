@@ -10,18 +10,16 @@ def display_category():
     for id, name in CURSOR:
         print(id, "  --  ", name)
 
-def select_category():
+def select_category(cat_id):
     '''Function to select a category of food'''
-    cat_name = (int(input("Selectionnez la catégorie: ")),) #rep2 is a tuple to insert in query
-    CURSOR.execute(query_select_category, cat_name)
+    CURSOR.execute(query_select_category, cat_id)
     for id, name in CURSOR:
         print(id, "  --  ", name)
 
-def select_product():
+def select_product(p_id):
     '''In order to offer a substitute, we must choice a product'''
-    p_id = (int(input("Choisissez votre produit: ")),)
     CURSOR.execute(query_select_product, p_id)
-    for id, nutriscore in CURSOR:
+    for id, name, nutriscore in CURSOR:
         n_grade = nutriscore
     return n_grade    
 
@@ -44,19 +42,16 @@ def conversion(n_grade):
 #Même categorie
 #faire un random.choice sur une liste
 
-
-
-
-
-
 if __name__ == "__main__":
        
     rep = int(input("1- Quel aliment souhaitez vous remplacer?: "))
     cnx = mysql.connector.connect(user="test_P5", password= "test_P5", database="alimentationV2")
     if rep == 1: 
         display_category()
-        select_category()
-        n_grade = select_product()
+        cat_id = (int(input("Selectionnez la catégorie: ")),) #cat_id is a tuple to insert in query
+        select_category(cat_id)
+        p_id = (int(input("Choisissez votre produit: ")),)
+        n_grade = select_product(p_id)
         ns_number = conversion(n_grade)
         print(ns_number)
 

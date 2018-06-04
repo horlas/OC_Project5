@@ -19,5 +19,5 @@ query_select_category = ("SELECT Product.id, Product.name from Product"
                          " INNER JOIN Category"
                          " ON Product.category_name = Category.name"
                          " WHERE Category.id = %s")
-query_select_product= ("SELECT Product.id, Product.nutriscore from Product"
+query_select_product= ("SELECT Product.id, Product.name, Product.nutriscore from Product"
              		   " WHERE Product.id = %s")

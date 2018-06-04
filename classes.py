@@ -16,11 +16,9 @@ class Product():
 
         
 
-
     def add(self, cursor):
-
-
-            
+        '''Function use to fill database'''
+         
         add_product = ("INSERT INTO Temp"
                        "(name, nutriscore, category_name, url)"
                        "VALUES (%s, %s, %s, %s)")
@@ -32,27 +30,15 @@ class Product():
         except mysql.connector.errors.IntegrityError:
             pass
 
-
-    def select_product():
-        '''In order to offer a substitute, we must choice a product'''
-        rep3 = (int(input("Choisissez votre produit: ")),)
-        query = ("SELECT Product.id, Product.nutriscore from Product"
-                " WHERE Product.id = %s")
-        product = cnx.cursor()
-        product.execute(query, rep3)
-        for id, nutriscore in product:
-            ns = nutriscore
- 
-        product.close() 
-        return ns    
-
-    def conversion(ns):
+    def conversion(n_grade):
         '''To convert letter to number'''
         ns_number = 0
         conv_ns = {1 : "a", 2 : "b", 3 : "c", 4 : "d", 5 : "e"}
         for key, value in conv_ns.items():
-            if ns == value:
+            if n_grade == value:
                 ns_number = key
 
         return ns_number            
+
+        
 
