@@ -3,10 +3,12 @@
 
 from classes import *
 from constants import *
+import pandas as pd
 
 def display_category():
     '''Function witch display the list of category'''
     CURSOR.execute(query_display_category)
+
     for id, name in CURSOR:
         print(id, "  --  ", name)
 
@@ -16,7 +18,25 @@ def select_category(cat_id):
     for id, name in CURSOR:
         print(id, "  --  ", name)
       
+def recorded_substitut():
+    '''Function which display substitut on demand'''
 
+    #extract data from database Mysql
+    CURSOR.execute(query_substitut_product)
+    frame = []
+    results = []
+    for cat_name, p_selected, p_substitute in CURSOR:
+        frame = [cat_name, p_selected, p_substitute]
+        results.append(frame)
+
+    #data processing with library panda to have a nice display
+    results_array = pd.DataFrame(results, columns = ['CATEGORY', 'SELECTED PRODUCT', 'SUBSTITUTE PRODUCT'])
+    for line in results_array.iterrows():
+        index_line = line[0]
+        contents_ligne = line[1]
+        print("Votre produit substitué {} :".format(index_line + 1)) #+1 for a better display
+        print(contents_ligne)
+        print("--------------------------------------------")
 
 
 if __name__ == "__main__":
@@ -38,19 +58,29 @@ if __name__ == "__main__":
 
         #convert nutriscore in number and choice a substitute product
         ns_number = p_selected.conversion()
-        substitute_id = (p_selected.substitut(cat_id, ns_number),) #tuple to pass in query's parameter
-        
-        #create a substitute product from the programme
+        substitut_id = (p_selected.substitut(cat_id, ns_number),) #tuple to pass in query's parameter
+        print(p_selected.substitut_id)
+        #create a substitute product in order to display it
         p_substitute = Product()
-        p_substitute.define_product(substitute_id)
+        p_substitute.define_product(substitut_id)
         
         #display for the user
         print("Vous avez selectionné: \n")
         p_selected.display()
         print("Nous vous proposons de le substituer \n\n"
               "Par un produit meilleur pour votre santé\n\n")
-        p_substitute.display()          
+        p_substitute.display()
         
+        #suggest to record the substitute product
+        rep_1 = input(("Voulez vous enregistrer cette proposition? Tapez o:  ").lower())
+        if rep_1 == "o":
+            p_selected.update_database()
+
+                    
+    
+    if rep == 2:
+        recorded_substitut()          
+
 
     CURSOR.close()
     cnx.close()     

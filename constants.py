@@ -31,6 +31,22 @@ query_create_select_product = ("SELECT Product.id, Product.name, Product.categor
 query_same_cat = ("SELECT id, nutriscore FROM Product" 
 				 " WHERE category_id = %s")
 
+#query for updating substitute_id into Product
+query_update_sub_id = ("UPDATE Product"
+					   " SET substitut_id = %s"
+					   " WHERE id = %s"	)
+
+#query which return the list of substitute products recorded
+query_substitut_product = ("SELECT substitut_product.category_name,"
+						   " substitut_product.name AS mauvais_pour_ta_santé,"
+						   " Product.name AS bon_pour_ta_santé"
+						   " FROM substitut_product"
+						   " INNER JOIN Product"
+						   " ON substitut_product.substitut_id = Product.id"
+						   " WHERE substitut_product.substitut_id = Product.id"
+						   " ORDER BY substitut_product.category_name")
+
+
 
 
 #Dictionary used to convert nutriscore in letter to number
