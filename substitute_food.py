@@ -15,47 +15,41 @@ def select_category(cat_id):
     CURSOR.execute(query_select_category, cat_id)
     for id, name in CURSOR:
         print(id, "  --  ", name)
-
-def select_product(p_id):
-    '''In order to offer a substitute, we must choice a product'''
-    CURSOR.execute(query_select_product, p_id)
-    for id, name, nutriscore in CURSOR:
-        n_grade = nutriscore
-    return n_grade    
-
-def conversion(n_grade):
-    '''To convert letter to number'''
-    ns_number = 0
-    conv_ns = {1 : "a", 2 : "b", 3 : "c", 4 : "d", 5 : "e"}
-    for key, value in conv_ns.items():
-        if n_grade == value:
-            ns_number = key
-
-    return ns_number            
+      
 
 
-#ecrire une fonction qui retournera un produit meilleur
-#def substitute(ns_number)
-
-    
-#Nutriscore donné en chiffre
-#Même categorie
-#faire un random.choice sur une liste
 
 if __name__ == "__main__":
        
-    rep = int(input("1- Quel aliment souhaitez vous remplacer?: "))
-    cnx = mysql.connector.connect(user="test_P5", password= "test_P5", database="alimentationV2")
+    rep = int(input("1- Quel aliment souhaitez vous remplacer? \n"
+                    "2- Retrouver mes aliments substitués \n"
+                    "Votre choix :  "))
+
+
     if rep == 1: 
         display_category()
         cat_id = (int(input("Selectionnez la catégorie: ")),) #cat_id is a tuple to insert in query
         select_category(cat_id)
-        p_id = (int(input("Choisissez votre produit: ")),)
-        n_grade = select_product(p_id)
-        ns_number = conversion(n_grade)
-        print(ns_number)
+        p_id = (int(input("Choisissez votre produit: \n")),)
 
-    
+        #create a product from input user
+        p_selected = Product() 
+        p_selected.define_product(p_id)
+
+        #convert nutriscore in number and choice a substitute product
+        ns_number = p_selected.conversion()
+        substitute_id = (p_selected.substitut(cat_id, ns_number),) #tuple to pass in query's parameter
+        
+        #create a substitute product from the programme
+        p_substitute = Product()
+        p_substitute.define_product(substitute_id)
+        
+        #display for the user
+        print("Vous avez selectionné: \n")
+        p_selected.display()
+        print("Nous vous proposons de le substituer \n\n"
+              "Par un produit meilleur pour votre santé\n\n")
+        p_substitute.display()          
         
 
     CURSOR.close()

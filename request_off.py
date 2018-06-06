@@ -41,8 +41,7 @@ def load_data(category):
                 url = p["url"]
             except KeyError: #to avoid empty field from OpenFoodFacts 
                 pass
-
-            
+          
 
             product.add(p_name, n_grade, cat_name, url, cursor)
                
