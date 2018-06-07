@@ -40,17 +40,48 @@ def recorded_substitut():
 
 
 if __name__ == "__main__":
-       
-    rep = int(input("1- Quel aliment souhaitez vous remplacer? \n"
+
+    
+    try:
+        rep = int(input("1- Quel aliment souhaitez vous remplacer? \n"
                     "2- Retrouver mes aliments substitués \n"
                     "Votre choix :  "))
-
-
+    #error during the first user input
+    except ValueError:
+        print("Vous n'avez pas saisi 1 ou 2. Veuillez taper 1 ou 2")
+        rep = int(input("1- Quel aliment souhaitez vous remplacer? \n"
+                        "2- Retrouver mes aliments substitués \n"
+                        "Votre choix :  "))
+    
+    while rep not in (1, 2):
+        print("Saissisez 1 ou 2")
+        try:
+            rep = int(input("1- Quel aliment souhaitez vous remplacer? \n"
+                            "2- Retrouver mes aliments substitués \n"
+                            "Votre choix :  "))
+        #error during the second user input
+        except  ValueError:
+            print("Vous n'avez pas saisi 1 ou 2. Veuillez taper 1 ou 2")
+            rep = int(input("1- Quel aliment souhaitez vous remplacer? \n"
+                            "2- Retrouver mes aliments substitués \n"
+                            "Votre choix :  "))   
+   
     if rep == 1: 
         display_category()
-        cat_id = (int(input("Selectionnez la catégorie: ")),) #cat_id is a tuple to insert in query
+        
+        try:
+            cat_id = (int(input("Selectionnez la catégorie: ")),) #cat_id is a tuple to insert in query
+        except ValueError:
+            print("Vous n'avez pas saisi une bonne valeur de catégorie")
+            cat_id = (int(input("Selectionnez la catégorie: ")),)
+   
         select_category(cat_id)
-        p_id = (int(input("Choisissez votre produit: \n")),)
+
+        try:
+            p_id = (int(input("Choisissez votre produit: \n")),)
+        except ValueError:
+            print("Vous n'avez pas saisi une bonne valeur de produit") 
+            p_id = (int(input("Choisissez votre produit: \n")),)
 
         #create a product from input user
         p_selected = Product() 
