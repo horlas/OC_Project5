@@ -37,14 +37,14 @@ query_update_sub_id = ("UPDATE Product"
 					   " WHERE id = %s"	)
 
 #query which return the list of substitute products recorded
-query_substitut_product = ("SELECT substitut_product.category_name,"
+query_substitut_product = ("SELECT substitut_product.category,"
 						   " substitut_product.name AS mauvais_pour_ta_santé,"
 						   " Product.name AS bon_pour_ta_santé"
 						   " FROM substitut_product"
 						   " INNER JOIN Product"
 						   " ON substitut_product.substitut_id = Product.id"
 						   " WHERE substitut_product.substitut_id = Product.id"
-						   " ORDER BY substitut_product.category_name")
+						   " ORDER BY substitut_product.name")
 
 
 

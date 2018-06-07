@@ -41,79 +41,90 @@ def recorded_substitut():
 
 if __name__ == "__main__":
 
-    
-    try:
-        rep = int(input("1- Quel aliment souhaitez vous remplacer? \n"
-                    "2- Retrouver mes aliments substitués \n"
-                    "Votre choix :  "))
-    #error during the first user input
-    except ValueError:
-        print("Vous n'avez pas saisi 1 ou 2. Veuillez taper 1 ou 2")
-        rep = int(input("1- Quel aliment souhaitez vous remplacer? \n"
-                        "2- Retrouver mes aliments substitués \n"
-                        "Votre choix :  "))
-    
-    while rep not in (1, 2):
-        print("Saissisez 1 ou 2")
+    HOME_LOOP = True
+    while HOME_LOOP:
+        cnx = mysql.connector.connect(user="user_P5", password= "user_P5", database="alimentation", buffered=True)
+        CURSOR = cnx.cursor()
         try:
             rep = int(input("1- Quel aliment souhaitez vous remplacer? \n"
                             "2- Retrouver mes aliments substitués \n"
+                            "0- Pour quitter le programme\n"
                             "Votre choix :  "))
-        #error during the second user input
-        except  ValueError:
-            print("Vous n'avez pas saisi 1 ou 2. Veuillez taper 1 ou 2")
+        #error during the first user input
+        except ValueError:
+            print("Vous n'avez pas saisi 1 ou 2. Veuillez\n taper 1 ou 2")
             rep = int(input("1- Quel aliment souhaitez vous remplacer? \n"
                             "2- Retrouver mes aliments substitués \n"
-                            "Votre choix :  "))   
-   
-    if rep == 1: 
-        display_category()
+                            "0- Pour quitter le programme\n"
+                            "Votre choix :  "))
+    
+        while rep not in (1, 2, 0):
+            print("Saissisez 1 ou 2 ou 0 pour quitter le programme")
+            try:
+                rep = int(input("1- Quel aliment souhaitez vous remplacer? \n"
+                                "2- Retrouver mes aliments substitués \n"
+                                "0- Pour quitter le programme\n"
+                            "Votre choix :  "))
+            #error during the second user input
+            except  ValueError:
+                print("Vous n'avez pas saisi 1 ou 2. Veuillez taper 1 ou 2")
+                rep = int(input("1- Quel aliment souhaitez vous remplacer? \n"
+                                "2- Retrouver mes aliments substitués \n"
+                                "0- Pour quitter le programme\n"
+                                "Votre choix :  "))   
+        if rep == 0 :
+            HOME_LOOP = False
         
-        try:
-            cat_id = (int(input("Selectionnez la catégorie: ")),) #cat_id is a tuple to insert in query
-        except ValueError:
-            print("Vous n'avez pas saisi une bonne valeur de catégorie")
-            cat_id = (int(input("Selectionnez la catégorie: ")),)
-   
-        select_category(cat_id)
-
-        try:
-            p_id = (int(input("Choisissez votre produit: \n")),)
-        except ValueError:
-            print("Vous n'avez pas saisi une bonne valeur de produit") 
-            p_id = (int(input("Choisissez votre produit: \n")),)
-
-        #create a product from input user
-        p_selected = Product() 
-        p_selected.define_product(p_id)
-
-        #convert nutriscore in number and choice a substitute product
-        ns_number = p_selected.conversion()
-        substitut_id = (p_selected.substitut(cat_id, ns_number),) #tuple to pass in query's parameter
-        print(p_selected.substitut_id)
-        #create a substitute product in order to display it
-        p_substitute = Product()
-        p_substitute.define_product(substitut_id)
+        if rep == 1: 
+            display_category()
         
-        #display for the user
-        print("Vous avez selectionné: \n")
-        p_selected.display()
-        print("Nous vous proposons de le substituer \n\n"
+            try:
+                cat_id = (int(input("Selectionnez la catégorie: ")),) #cat_id is a tuple to insert in query
+            except ValueError:
+                print("Vous n'avez pas saisi une bonne valeur de catégorie")
+                cat_id = (int(input("Selectionnez la catégorie: ")),)
+   
+            select_category(cat_id)
+
+            try:
+                p_id = (int(input("Choisissez votre produit: \n")),)
+            except ValueError:
+                print("Vous n'avez pas saisi une bonne valeur de produit") 
+                p_id = (int(input("Choisissez votre produit: \n")),)
+
+            #create a product from input user
+            p_selected = Product() 
+            p_selected.define_product(p_id)
+
+            #convert nutriscore in number and choice a substitute product
+            ns_number = p_selected.conversion()
+            substitut_id = (p_selected.substitut(cat_id, ns_number),) #tuple to pass in query's parameter
+            print(p_selected.substitut_id)
+            #create a substitute product in order to display it
+            p_substitute = Product()
+            p_substitute.define_product(substitut_id)
+        
+            #display for the user
+            print("Vous avez selectionné: \n")
+            p_selected.display()
+            print("Nous vous proposons de le substituer \n\n"
               "Par un produit meilleur pour votre santé\n\n")
-        p_substitute.display()
+            p_substitute.display()
         
-        #suggest to record the substitute product
-        rep_1 = input(("Voulez vous enregistrer cette proposition? Tapez o:  ").lower())
-        if rep_1 != "o":
-            print("Programme abandonné")
-        if rep_1 == "o":
-            p_selected.update_database()
+            #suggest to record the substitute product
+            rep_1 = input(("Voulez vous enregistrer cette proposition? Tapez o: \n  "
+                           "Sinon n'importe quelle touche pour revenir au programme :  ").lower())
+            if rep_1 != "o":
+                print("sauvegarde abandonnée")
+
+            if rep_1 == "o":
+                p_selected.update_database()
 
                     
     
-    if rep == 2:
-        recorded_substitut()          
+        if rep == 2:
+            recorded_substitut()          
 
 
-    CURSOR.close()
-    cnx.close()     
+        CURSOR.close()
+        cnx.close()     
