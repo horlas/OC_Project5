@@ -8,7 +8,7 @@ import mysql.connector
 
 #Cursor
 
-cnx = mysql.connector.connect(user="test_P5", password= "test_P5", database="alimentationV2", buffered=True)
+cnx = mysql.connector.connect(user="user_P5", password= "user_P5", database="alimentation", buffered=True)
 CURSOR = cnx.cursor()
 
 add_product = ("INSERT INTO Temp"

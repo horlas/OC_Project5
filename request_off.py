@@ -57,7 +57,7 @@ def fill_database():
 if __name__ == "__main__":
 
     #Define the connexion
-    cnx = mysql.connector.connect(user="test_P5", password= "test_P5", database="alimentationV2")
+    cnx = mysql.connector.connect(user="user_P5", password= "user_P5", database="alimentation")
     cursor = cnx.cursor()
     load_data("fruits-secs")
     load_data("produits-a-tartiner")

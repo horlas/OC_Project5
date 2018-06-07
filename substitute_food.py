@@ -104,6 +104,8 @@ if __name__ == "__main__":
         
         #suggest to record the substitute product
         rep_1 = input(("Voulez vous enregistrer cette proposition? Tapez o:  ").lower())
+        if rep_1 != "o":
+            print("Programme abandonné")
         if rep_1 == "o":
             p_selected.update_database()
 
