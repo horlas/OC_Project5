@@ -16,7 +16,8 @@ DROP PROCEDURE IF EXISTS fill_database;
 CREATE TABLE Category (
 id int(11) unsigned NOT NULL AUTO_INCREMENT,
 name varchar(150) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
-PRIMARY KEY (id)
+PRIMARY KEY (id),
+UNIQUE KEY name (name)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 

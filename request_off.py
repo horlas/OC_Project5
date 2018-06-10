@@ -41,7 +41,7 @@ def load_data(category):
                 url = p["url"]
             except KeyError: #to avoid empty field from OpenFoodFacts 
                 pass
-          
+       
 
             product.add(p_name, n_grade, cat_name, url, cursor)
                
@@ -68,7 +68,10 @@ if __name__ == "__main__":
     load_data("jambons-de-paris")
 
     #fill table with datas
-    fill_database()
+    try:
+        fill_database()
+    except mysql.connector.errors.IntegrityError:
+        pass    
     #make sure to commit data to database
     cnx.commit()
     #close connexion
