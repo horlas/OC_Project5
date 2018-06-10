@@ -1,9 +1,14 @@
 #!/usr/bin/python3.5
 # -*-coding:utf-8 -
+'''Program which find among the same category a subtitut product
+   to a selected product.
+   The user can update this proposal to database.
+   The user can consult the products recorded.'''
 
 from classes import *
-from constants import *
 import pandas as pd
+from constants import *
+
 
 def display_category():
     '''Function witch display the list of category'''
@@ -30,7 +35,7 @@ def recorded_substitut():
         results.append(frame)
 
     #data processing with library panda to have a nice display
-    results_array = pd.DataFrame(results, columns = ['CATEGORY', 'SELECTED PRODUCT', 'SUBSTITUTE PRODUCT'])
+    results_array=pd.DataFrame(results, columns=['CATEGORY', 'SELECTED PRODUCT', 'SUBSTITUTE PRODUCT'])
     for line in results_array.iterrows():
         index_line = line[0]
         contents_ligne = line[1]
@@ -64,7 +69,7 @@ if __name__ == "__main__":
                 rep = int(input("1- Quel aliment souhaitez vous remplacer? \n"
                                 "2- Retrouver mes aliments substitués \n"
                                 "0- Pour quitter le programme\n"
-                            "Votre choix :  "))
+                                "Votre choix :  "))
             #error during the second user input
             except  ValueError:
                 print("Vous n'avez pas saisi 1 ou 2. Veuillez taper 1 ou 2")
@@ -72,10 +77,10 @@ if __name__ == "__main__":
                                 "2- Retrouver mes aliments substitués \n"
                                 "0- Pour quitter le programme\n"
                                 "Votre choix :  "))   
-        if rep == 0 :
+        if rep == 0:
             HOME_LOOP = False
         
-        if rep == 1: 
+        if rep == 1:
             display_category()
         
             try:
@@ -99,7 +104,7 @@ if __name__ == "__main__":
             #convert nutriscore in number and choice a substitute product
             ns_number = p_selected.conversion()
             substitut_id = (p_selected.substitut(cat_id, ns_number),) #tuple to pass in query's parameter
-            print(p_selected.substitut_id)
+
             #create a substitute product in order to display it
             p_substitute = Product()
             p_substitute.define_product(substitut_id)
@@ -108,7 +113,7 @@ if __name__ == "__main__":
             print("Vous avez selectionné: \n")
             p_selected.display()
             print("Nous vous proposons de le substituer \n\n"
-              "Par un produit meilleur pour votre santé\n\n")
+                  "Par un produit meilleur pour votre santé\n\n")
             p_substitute.display()
         
             #suggest to record the substitute product
