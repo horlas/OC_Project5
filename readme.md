@@ -1,4 +1,4 @@
-#Projet 5: utiliser les données publiques d'Open Food Facts
+# Projet 5: utiliser les données publiques d'Open Food Facts
 Programmes ecrits en Python3
 https://github.com/horlas/OC_Project5
 **Librairies utilisées:**
@@ -28,7 +28,7 @@ Elle vide la table Temp à la fin pour éviter le poids de données inutiles pou
 
 La  vue *substitut_product* permet de satisfaire la fonctionnalité 2 du programme principal : Afficher les produits substitués. Elle permet de boucler sur la table Product afin d'obtenir le nom des produits selectionnés et le nom des produits substitués correspondant.
 
-##Remplissage de la base alimentation gâce aux données OpenFood Facts: resquest_off.py 
+## Remplissage de la base alimentation gâce aux données OpenFood Facts: resquest_off.py 
 Pour les besoins du projet,  seules les trois premières pages des catégories choisies sont importées pour éviter la lourdeur de la base.
 Cependant une fonctionnalité peut permettre d'importer l'ensemble des pages:
 (située ligne 23 :   loop = 3    #import only the tree first pages       #ceil(count/20) # 20 = pagination)
@@ -37,15 +37,15 @@ Ce programme va interroger les catégories choisies pour les intégrer dans la b
 Pour cela il s'appuie sur la creation d'objet Product (objet défini dans le fichier classes.py par la méthode add product), cette étape est implémentée dans la fonction load_data qui vient stocker les données dans la table Temp.
 Une deuxième fonction: fill_database fait appel à la procédure stockée dans la base Mysql qui prend en charge le remplissage des tables utiles au programme : Product et Category.
 
-##Traitement des données de la base: analysis_data.py
+## Traitement des données de la base: analysis_data.py
  Nous nous sommes aperçu que les données d'OpenFood Fact pouvaient être corrompues notamment dans l'affection des catégories aux produits (ex : une catégorie ne contient qu'un seul produits , ou la présence d'une catégorie nommée unknown).
 Ce programme utilise l'ORM SQlAlchemy et il va venir interroger la base et  les données seront traités grâce à l'intervention de l'administrateur de l'application. Il permettra de supprimer les catégories non valide et de regrouper les produits.
 
-##Application: substitut_food.py: 
-###Fonctionnalité 1:
+## Application: substitut_food.py: 
+### Fonctionnalité 1:
 Le programme propose à l'utilisateur de choisir une catégorie puis un produit qu'il consommerai . Lorsque la saisie est faite , il renvoie un substitut de meilleure qualité puis propose son enregistrement.
 
-###Fonctionnalité 2 :
+### Fonctionnalité 2 :
 Le programme permet de renvoyer à l'utilisateur l'ensemble de ces produits sauvegardés dans la base de données.
 
 Une boucle est mise en place permettant à l'utilisateur de faire plusieurs choix possibles. Il peut à tout moment sortir du programme en rentrant "0".
@@ -54,8 +54,8 @@ Ce programme s'appuie sur l'utilisation de trois fonctions : select_category et 
 
 Une fois le produit selectionné, un objet Product est créé, il permet de renvoyer les attributs du produits choisi mais aussi de faire le choix parmi la même catégorie d'un produit substituant c'est à dire avec un nutriscore meilleur (conversion du nutriscore au préalable en chiffre) 
 
-##Fichier définissant la class Product.class.py :
+## Fichier définissant la class Product.class.py :
 Cette classe est utilisée par les programmes request_off et substitut_food.py. 
 
-##Fichier regroupant les constantes des programmes:
+## Fichier regroupant les constantes des programmes:
 constants.py.
