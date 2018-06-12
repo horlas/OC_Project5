@@ -1,11 +1,11 @@
 SET NAMES utf8;
 
-
-DROP TABLE IF EXISTS Category;
 DROP TABLE IF EXISTS Product;
+DROP TABLE IF EXISTS Category;
 DROP TABLE IF EXISTS Temp;
-DROP TABLE IF EXISTS substitut_product;
+DROP VIEW IF EXISTS substitut_product;
 DROP PROCEDURE IF EXISTS fill_database;
+
 
 
 
@@ -53,6 +53,19 @@ url text NOT NULL,
 PRIMARY KEY (id),
 UNIQUE KEY name (name)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+
+--
+-- Foreign key
+--
+ALTER TABLE Product
+ADD CONSTRAINT fk_cat_id
+FOREIGN KEY (category_id)
+REFERENCES Category(id)
+ON DELETE CASCADE;
+
+
 
 
 

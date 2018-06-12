@@ -29,7 +29,6 @@ Elle vide la table Temp à la fin pour éviter le poids de données inutiles pou
 La  vue *substitut_product* permet de satisfaire la fonctionnalité 2 du programme principal : Afficher les produits substitués. Elle permet de boucler sur la table Product afin d'obtenir le nom des produits selectionnés et le nom des produits substitués correspondant.
 
 ##Remplissage de la base alimentation gâce aux données OpenFood Facts: resquest_off.py 
-
 Pour les besoins du projet,  seules les trois premières pages des catégories choisies sont importées pour éviter la lourdeur de la base.
 Cependant une fonctionnalité peut permettre d'importer l'ensemble des pages:
 (située ligne 23 :   loop = 3    #import only the tree first pages       #ceil(count/20) # 20 = pagination)
@@ -39,15 +38,12 @@ Pour cela il s'appuie sur la creation d'objet Product (objet défini dans le fic
 Une deuxième fonction: fill_database fait appel à la procédure stockée dans la base Mysql qui prend en charge le remplissage des tables utiles au programme : Product et Category.
 
 ##Traitement des données de la base: analysis_data.py
-  
-
-Nous nous sommes aperçu que les données d'OpenFood Fact pouvaient être corrompues notamment dans l'affection des catégories aux produits (ex : une catégorie ne contient qu'un seul produits , ou la présence d'une catégorie nommée unknown).
+ Nous nous sommes aperçu que les données d'OpenFood Fact pouvaient être corrompues notamment dans l'affection des catégories aux produits (ex : une catégorie ne contient qu'un seul produits , ou la présence d'une catégorie nommée unknown).
 Ce programme utilise l'ORM SQlAlchemy et il va venir interroger la base et  les données seront traités grâce à l'intervention de l'administrateur de l'application. Il permettra de supprimer les catégories non valide et de regrouper les produits.
 
 ##Application: substitut_food.py: 
-
 ###Fonctionnalité 1:
-Le programme propose à l'utlisateur de choisir une catégorie puis un produit qu'il consommerai . Lorsque la saisie est faite , il renvoie un substitut de meilleure qualité puis propose son enregistrement.
+Le programme propose à l'utilisateur de choisir une catégorie puis un produit qu'il consommerai . Lorsque la saisie est faite , il renvoie un substitut de meilleure qualité puis propose son enregistrement.
 
 ###Fonctionnalité 2 :
 Le programme permet de renvoyer à l'utilisateur l'ensemble de ces produits sauvegardés dans la base de données.

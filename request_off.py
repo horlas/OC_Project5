@@ -29,6 +29,7 @@ def load_data(category):
         response = requests.get(url)
         products = response.json()
 
+        p_name = ""
         n_grade = ""
         cat_name = ""
         product = Product()
