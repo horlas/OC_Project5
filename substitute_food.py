@@ -104,26 +104,29 @@ if __name__ == "__main__":
             #convert nutriscore in number and choice a substitute product
             ns_number = p_selected.conversion()
             substitut_id = (p_selected.substitut(cat_id, ns_number),) #tuple to pass in query's parameter
-
-            #create a substitute product in order to display it
-            p_substitute = Product()
-            p_substitute.define_product(substitut_id)
+            #in case of no substitut because is already the best product
+            if substitut_id == (0,):
+                print("\nVotre produit est déjà avec un nutriscore a\n")
+            else:
+                #create a substitute product in order to display it
+                p_substitute = Product()
+                p_substitute.define_product(substitut_id)
         
-            #display for the user
-            print("Vous avez selectionné: \n")
-            p_selected.display()
-            print("Nous vous proposons de le substituer \n\n"
-                  "Par un produit meilleur pour votre santé\n\n")
-            p_substitute.display()
+                #display for the user
+                print("Vous avez selectionné: \n")
+                p_selected.display()
+                print("Nous vous proposons de le substituer \n\n"
+                      "Par un produit meilleur pour votre santé\n\n")
+                p_substitute.display()
         
-            #suggest to record the substitute product
-            rep_1 = input(("Voulez vous enregistrer cette proposition? Tapez o: \n  "
-                           "Sinon n'importe quelle touche pour revenir au programme :  ").lower())
-            if rep_1 != "o":
-                print("sauvegarde abandonnée")
+                #suggest to record the substitute product
+                rep_1 = input(("Voulez vous enregistrer cette proposition? Tapez o: \n  "
+                               "Sinon n'importe quelle touche pour revenir au programme :  ").lower())
+                if rep_1 != "o":
+                    print("sauvegarde abandonnée")
 
-            if rep_1 == "o":
-                p_selected.update_database()
+                if rep_1 == "o":
+                    p_selected.update_database()
 
                     
     

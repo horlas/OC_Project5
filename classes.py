@@ -88,13 +88,14 @@ class Product():
         #In case of no possibilitie of substitution
         if len(sub_dict) == 0: 
             print("Aucun produit de substitution dans la base de données")
-            
+            substitut_id = 0
         #Choose a product among better stuff
         else:
             #random among the possibilities of substitution   
             substitut_id = random.choice(list(sub_dict.keys())) 
             self.substitut_id = substitut_id
-            return substitut_id
+        return substitut_id
+
 
     def update_database(self):
         '''function also updates database in writing the id of the substitute product'''

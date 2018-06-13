@@ -81,7 +81,6 @@ def pos_cat(cat_id):
 				 		 all():
 			if i.id != cat_id:
 				pos_cat[i.id] = i.name
-				#print(i.id, i.name)
 	return pos_cat
 
 def find_orph_product(orph_cat, cat_id):			
@@ -116,6 +115,20 @@ def no_name_product():
 
 
 ####################################################################################
+####################################################################################
+################ Function for treatment of category with no mane ###################
+def no_name_category():
+	#list category with no_name
+	no_name_cat = []
+	for i in session.query(Category).\
+					 filter(Category.name == "").\
+					 all():
+		no_name_cat.append(i.id)
+	return no_name_cat				 	
+
+
+####################################################################################
+################### Function for treatment of Unknown Category######################
 
 def possibilities_classisy(orph_cat):
 	#list possibilities of classication without orphan category 
@@ -125,17 +138,14 @@ def possibilities_classisy(orph_cat):
 			if i.id != cat_id:
 					print(i.id, i.name)
 
-def change_category(rep):
-	#reaffect a category and clean orph_cat
-	for replace in session.query(Category).\
-								   filter(Category.name.like(rep)).\
-								   all():
-		print("yayayaya")
-		print(i.category_id, replace.id)				   
-		i.category_id = replace.id
-		i.category_name = replace.name
-		session.commit()
-	#for i in session.query(Product).\
+def list_category():
+	#list category exept unknown category
+	list_category = {}
+	for instance in session.query(Category).\
+							filter(Category.name.notilike("unknown")).\
+							all():
+		list_category[instance.id] = instance.name
+	return list_category	
 
 def unknown_category_product():
 	#class and sort the items of unknown category
@@ -146,16 +156,7 @@ def unknown_category_product():
 		#print(i.id, i.name)
 		unknown_cat_pro[i.id] = i.name
 	return unknown_cat_pro	
-
-
-def classify_product(rep):
-	for i in session.query(Product).\
-				     filter(Product.category_name == "unknown").\
-				     all():
-		if rep in i.name:
-			change_category(rep)
-	session.commit()
-	print("yayay")		
+###################################################################################
 			
 
 
@@ -174,7 +175,7 @@ if __name__ == "__main__":
 	for id, name in orph_cat.items():
 		cat_id =id	
 		find_orph_product(orph_cat, cat_id)
-	
+
 	#delete orphans categories
 
 	print("suppression des catégories orphelines : {}".format(orph_cat))
@@ -199,42 +200,76 @@ if __name__ == "__main__":
 	session.commit()
 	print("done\n")	
 
-	
 
+	#delete no_name_category
+	print("Traitement des catégories sans nom. \n")
+	cat_no_name = no_name_category()
+	print("suppression des catégories sans nom : {}".format(cat_no_name))
+	for i in cat_no_name:
+		session.query(Category).filter(Category.id == i).\
+							   delete(synchronize_session=False)
+
+	session.commit()
+	print("done\n")		
+	
 	#treat category names "unknow"
 	print("Traitement de la catégorie unknow \n")
 	unknown_cat_pro = unknown_category_product()
+	if len(unknown_cat_pro) == 0:
+		print("done")
 
-	#while len(unknown_cat_pro) > 0 :
-	for i, n in unknown_cat_pro.items():
-		print(i, n)		
-	print("1 traitement par mot clé : \n")
-	rep = input("saisissez une mot clé par exemple  Pizza :   ")	
-	print("Traitement automatique de {}".format(rep))
-	for i in session.query(Product).\
-				     filter(Product.category_name == "unknown").\
-				     all():
-		if rep in i.name:
-			print("balalal")
+	while len(unknown_cat_pro) > 0 :
+		for i, n in unknown_cat_pro.items():
+			print(i, n )		
 
-			for instance in session.query(Category).\
-						   filter(Category.name.like(rep)).all():
-								   
-				print(instance.id)	
-			#print("yayayaya")
-			#print(i.category_id, replace.id)				   
-			#i.category_id = Category.id
-			#i.category_name = Category.name
-			#session.commit()
+		reply = int(input("\n1- Traitement par mot clé :   \n"
+						  "2- Traitement par affectation nouvelle categorie: \n"
+						  "Votre choix:   \n"))
+		
+		if reply == 1:
+			rep = input("Veuillez saisir le mot clé pour classement, par exemple Pizza:   \n")
+			print("Traitement automatique de {}\n".format(rep))
+			for i in session.query(Product).\
+				             filter(Product.category_name == "unknown").\
+				             all():
+				if rep in i.name:
+				
+					for replace in session.query(Category).\
+						                   filter(Category.name.ilike('%{}%'.format(rep))).\
+						                   all():
+				   
+						i.category_id = replace.id
+						i.category_name = replace.name
+						session.commit()
+
+			unknown_cat_pro = unknown_category_product() #refresh unknow_cat_pro				
+		
+		if reply == 2:
+			for i in session.query(Product).\
+				             filter(Product.category_name == "unknown").\
+				             all():
+				print(i.id, i.name)
+				pos_category = list_category()
+				print("Liste des catégories :\n {}".format(pos_category))
+				try:
+					new_cat = int(input("Votre_choix:   "))
+				except KeyError:
+					print("if user is so stupid to type the product id ")
+					new_cat = int(input("Votre_choix:   "))
+				i.category_id = new_cat
+				i.category_name = pos_category[new_cat]
+				session.commit()
+			unknown_cat_pro = unknown_category_product() #refresh unknow_cat_pro
+
+	#finally delete unknown category
+	print("suppression de la categorie unknown")
+	session.query(Category).filter(Category.name == "unknown").\
+							   delete(synchronize_session=False)
+
+	session.commit()
+	print("done\n")			
 
 
-
-
-	#classify_product(rep)
-		#unknown_cat_pro = unknown_category_product()
-
-	#while len(unknown_cat_pro) > 0 :
-		#unknown_cat_pro = unknown_category()
 
 	
 					   

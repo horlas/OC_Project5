@@ -21,14 +21,14 @@ Temp, Product, Category
 **Product**: les données sur les produits
 **Catégory**: le nom des catégories et leur id
 
-Les tables Product et Catégory sont remplies à partir des données stockées dans Temp grace à une procédure stockée nommée "*fill_database*".
-Cette procédure nous permet de gérer correctement intégrité des données notamment l'incrémentation des id et d'éviter les doublons dans les noms.
+Les tables Product et Catégory sont remplies à partir des données stockées dans Temp gräce à une procédure stockée nommée "*fill_database*".
+Cette procédure nous permet de gérer correctement l'intégrité des données notamment l'incrémentation des id et d'éviter les doublons dans les noms.
 Elle permet aussi de créer un id de la catégorie en local et de l'affecter dans un deuxième temps au produit ( colonne Product.category_id = Category.id ). 
 Elle vide la table Temp à la fin pour éviter le poids de données inutiles pour la suite du programme et permettre aussi un nouvel import.
 
-La  vue *substitut_product* permet de satisfaire la fonctionnalité 2 du programme principal : Afficher les produits substitués. Elle permet de boucler sur la table Product afin d'obtenir le nom des produits selectionnés et le nom des produits substitués correspondant.
+La  vue *substitut_product* permet de satisfaire la fonctionnalité 2 du programme principal : Afficher les produits substitués. Elle permet de boucler sur la table Product afin d'obtenir le nom des produits selectionnés et le nom des produits substitués correspondants.
 
-## Remplissage de la base alimentation gâce aux données OpenFood Facts: resquest_off.py 
+## Remplissage de la base "alimentation" gâce aux données OpenFood Facts: resquest_off.py 
 Pour les besoins du projet,  seules les trois premières pages des catégories choisies sont importées pour éviter la lourdeur de la base.
 Cependant une fonctionnalité peut permettre d'importer l'ensemble des pages:
 (située ligne 23 :   loop = 3    #import only the tree first pages       #ceil(count/20) # 20 = pagination)
