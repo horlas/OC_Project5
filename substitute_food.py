@@ -4,9 +4,8 @@
    to a selected product.
    The user can update this proposal to database.
    The user can consult the products recorded.'''
-
-from classes import *
 import pandas as pd
+from classes import *
 from constants import *
 
 
@@ -35,7 +34,7 @@ def recorded_substitut():
         results.append(frame)
 
     #data processing with library panda to have a nice display
-    results_array=pd.DataFrame(results, columns=['CATEGORY', 'SELECTED PRODUCT', 'SUBSTITUTE PRODUCT'])
+    results_array = pd.DataFrame(results, columns=['CATEGORIE', 'PRODUIT SELECTIONNE', 'PRODUIT SUBSTITUE'])
     for line in results_array.iterrows():
         index_line = line[0]
         contents_ligne = line[1]
@@ -106,7 +105,7 @@ if __name__ == "__main__":
             substitut_id = (p_selected.substitut(cat_id, ns_number),) #tuple to pass in query's parameter
             #in case of no substitut because is already the best product
             if substitut_id == (0,):
-                print("\nVotre produit est déjà avec un nutriscore a\n")
+                print("\nVotre produit est déjà avec le meilleur nutriscore de sa catégorie\n")
             else:
                 #create a substitute product in order to display it
                 p_substitute = Product()
@@ -121,7 +120,8 @@ if __name__ == "__main__":
         
                 #suggest to record the substitute product
                 rep_1 = input(("Voulez vous enregistrer cette proposition? Tapez o: \n  "
-                               "Sinon n'importe quelle touche pour revenir au programme :  ").lower())
+                               "Sinon n'importe quelle touche pour revenir au programme :  ")
+                             .lower())
                 if rep_1 != "o":
                     print("sauvegarde abandonnée")
 

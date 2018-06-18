@@ -4,9 +4,6 @@
 
 import mysql.connector
 from constants import *
-import random
-
-
 
 class Product():
     '''To enable the general use of the Product class
@@ -83,28 +80,27 @@ class Product():
                     temp[key] = key2
 
         #sort product which have a nutriscore smaller than ns_number
-        sub_dict = { k:v for k, v in temp.items() if v < ns_number}
-
-        #In case of no possibilitie of substitution
-        if len(sub_dict) == 0: 
-            print("Aucun produit de substitution dans la base de données")
-            self.substitut_id = 0
+        sub_dict = {k : v for k, v in temp.items() if v < ns_number}
         #Choose a product among better stuff
         #create first a dictionnary with value = 1 since the dictionnary is empty
         #incremente this value .
-        else:
+        if sub_dict: 
             ind = 1
             better_sub_dict = {}
             while len(better_sub_dict) == 0:
-                for k, v in sub_dict.items():
+                for value in sub_dict.items():
                     better_sub_dict = {k:v for k, v in sub_dict.items() if v == ind}
                 ind += 1
 
-
-            sub_item = better_sub_dict.popitem()
+            #Since the dict doesn't preserve order,
+            #by using popitem you get items in an arbitrary order from it.    
+            sub_item = better_sub_dict.popitem() 
             self.substitut_id = sub_item[0]          
-
-
+        
+        #In case of no possibilitie of substitution
+        else:
+            print("Aucun produit de substitution dans la base de données")
+            self.substitut_id = 0   
         return self.substitut_id
 
 
@@ -117,6 +113,6 @@ class Product():
     def display(self):
         '''display data belong to product'''
         print("{} \n\nDe la catégorie {} \n\n"
-            "Son nutriscore est {}. \n\n"
-            "Vous pouvez trouver sa fiche à cette adresse \n\n{}\n\n"
-            .format(self.p_name, self.cat_name, self.n_grade, self.url))
+              "Son nutriscore est {}. \n\n"
+              "Vous pouvez trouver sa fiche à cette adresse \n\n{}\n\n"
+              .format(self.p_name, self.cat_name, self.n_grade, self.url))
