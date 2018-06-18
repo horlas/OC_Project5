@@ -64,9 +64,9 @@ class Product():
         return ns_number 
 
     def substitut(self, cat_id, ns_number):
-        '''function which find a substitute product among a list of better choice
-        with random choice and return this product id to suggest the user the choice.
-        If there is no substitute, the function tells the user.'''
+        '''function which find a substitute product among a list of better choice in 
+        same category with random choice and return this product id to suggest the user
+         the choice. If there is no substitute, the function tells the user.'''
 
         #Conversion
         #create a temporary dictionnary to convert and sort the substitut product
@@ -83,23 +83,33 @@ class Product():
                     temp[key] = key2
 
         #sort product which have a nutriscore smaller than ns_number
-        sub_dict = { k:v for k, v in temp.items() if v < ns_number}              
-        
+        sub_dict = { k:v for k, v in temp.items() if v < ns_number}
+
         #In case of no possibilitie of substitution
         if len(sub_dict) == 0: 
             print("Aucun produit de substitution dans la base de données")
-            substitut_id = 0
+            self.substitut_id = 0
         #Choose a product among better stuff
+        #create first a dictionnary with value = 1 since the dictionnary is empty
+        #incremente this value .
         else:
-            #random among the possibilities of substitution   
-            substitut_id = random.choice(list(sub_dict.keys())) 
-            self.substitut_id = substitut_id
-        return substitut_id
+            ind = 1
+            better_sub_dict = {}
+            while len(better_sub_dict) == 0:
+                for k, v in sub_dict.items():
+                    better_sub_dict = {k:v for k, v in sub_dict.items() if v == ind}
+                ind += 1
+
+
+            sub_item = better_sub_dict.popitem()
+            self.substitut_id = sub_item[0]          
+
+
+        return self.substitut_id
 
 
     def update_database(self):
         '''function also updates database in writing the id of the substitute product'''
-
         CURSOR.execute(query_update_sub_id, (self.substitut_id, self.id))
         #make sure to commit data to database
         cnx.commit()

@@ -21,11 +21,6 @@ class Category(alimentation):
 	id = Column(Integer, primary_key = True)
 	name = Column(String(150))
 
-	#del_cat = relationship("Product", back_populates ="Category")
-
- 
-
-
 class Product(alimentation):
 	"""docstring for Product"""
 	__tablename__ = 'Product'
@@ -37,9 +32,6 @@ class Product(alimentation):
 	substitut_id = Column(Integer, nullable=False)
 	category_id = Column(Integer, ForeignKey("Category.id"))
 	category_name = Column(String(80))
-
-	#fk_cat_id = relationship("Category", backpopulate ="")
-
 
 #declare session
 Session = sessionmaker(bind=engine)
@@ -56,10 +48,6 @@ def find_product_per_category():
 					 all():
 		print(i.id, i.name)
 				
-#select the category which contain one products
-#select count(id), category_name from Product group by category_name;
-#select count(id), category_name from Product group by category_name; where count(id) = 1;
-#where count(id) 
 
 #################Functions for treatment of orphans products##########################
 def find_category_one_product():
@@ -114,7 +102,7 @@ def no_name_product():
 	return no_name	
 
 
-####################################################################################
+
 ####################################################################################
 ################ Function for treatment of category with no mane ###################
 def no_name_category():
@@ -153,7 +141,6 @@ def unknown_category_product():
 	for i in session.query(Product).\
 				     filter(Product.category_name == "unknown").\
 				      all():
-		#print(i.id, i.name)
 		unknown_cat_pro[i.id] = i.name
 	return unknown_cat_pro	
 ###################################################################################
@@ -268,19 +255,3 @@ if __name__ == "__main__":
 
 	session.commit()
 	print("done\n")			
-
-
-
-	
-					   
-
-
-	
-
-
-
-
-
-
-				 
-	 		
